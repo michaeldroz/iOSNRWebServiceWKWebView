@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CourseViewController: UITableViewController {
+class CourseViewController: UITableViewController, NSURLSessionDataDelegate {
     
     var session: NSURLSession!
     var courses = [[NSObject:AnyObject]]()
@@ -16,13 +16,13 @@ class CourseViewController: UITableViewController {
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         let config = NSURLSessionConfiguration.defaultSessionConfiguration()
-        session = NSURLSession(configuration: config, delegate: nil, delegateQueue: nil)
+        session = NSURLSession(configuration: config, delegate: self, delegateQueue: nil)
         
         fetchFeed()
     }
     
     func fetchFeed() {
-        let requestString = "http://bookapi.bignerdranch.com/courses.json"
+        let requestString = "https://bookapi.bignerdranch.com/private/courses.json"
         if let url = NSURL(string: requestString) {
             let req = NSURLRequest(URL: url)
             
@@ -98,10 +98,10 @@ class CourseViewController: UITableViewController {
         }
     }
     
-    /*func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential) -> Void) {
+    func URLSession(session: NSURLSession, task: NSURLSessionTask, didReceiveChallenge challenge: NSURLAuthenticationChallenge, completionHandler: (NSURLSessionAuthChallengeDisposition, NSURLCredential) -> Void) {
         
         let cred = NSURLCredential(user: "BigNerdRanch", password: "AchieveNerdvana", persistence: .ForSession)
         completionHandler(.UseCredential, cred)
-    }*/
+    }
     
 }
